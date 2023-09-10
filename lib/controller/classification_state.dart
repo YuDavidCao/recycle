@@ -49,7 +49,6 @@ class ClassificationState extends ChangeNotifier {
     return randomList;
   }
 
-  void testpredict() {}
 
   Future<String> predict(PreProcessedImage image) async {
     if (model == null) {
@@ -59,6 +58,7 @@ class ClassificationState extends ChangeNotifier {
       [0, 0, 0, 0, 0, 0]
     ];
     model?.run(image, output);
+    print(output);
     return decodeLabel(output);
   }
 

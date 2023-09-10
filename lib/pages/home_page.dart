@@ -3,12 +3,23 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_state.dart';
 
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:image/image.dart' as Img;
 
-typedef PreProcessedImage = List<List<List<List<double>>>>;
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load('assets/$path');
+  final file = File('${(await getTemporaryDirectory()).path}/$path');
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+  return file;
+}
+
+typedef PreProcessedImage = List<List<List<List<num>>>>;
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,8 +33,8 @@ class _HomePageState extends State<HomePage> {
 
   Future<String> selectPicture(ImageSource imageSource) async {
     final ImagePicker picker = ImagePicker();
-    setState(() {});
     File imageFile = File((await picker.pickImage(source: imageSource))!.path);
+    // File imageFile = await getImageFileFromAssets('glass17.jpg');
     List<int> imageBytes = imageFile.readAsBytesSync();
     final Img.Image? image = Img.decodeImage(Uint8List.fromList(imageBytes));
     if (image != null) {
@@ -40,13 +51,13 @@ class _HomePageState extends State<HomePage> {
   PreProcessedImage createShapedList(Img.Image image) {
     const int width = 224;
     const int height = 224;
-    final List<List<List<double>>> shapedList = List.generate(
+    final List<List<List<num>>> shapedList = List.generate(
       height,
       (y) => List.generate(
         width,
         (x) {
           final pixel = image.getPixel(x, y);
-          return [pixel.r / 255.0, pixel.g / 255.0, pixel.b / 255.0];
+          return [pixel.r, pixel.g, pixel.b];
         },
       ),
     );
