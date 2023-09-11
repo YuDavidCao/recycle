@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:recycle/constants.dart';
 import 'package:recycle/controller/classification_state.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -32,36 +33,15 @@ class _HomePageState extends State<HomePage> {
   String currentLabel = "None";
 
   Future<String> selectPicture(ImageSource imageSource) async {
-    final ImagePicker picker = ImagePicker();
-    File imageFile = File((await picker.pickImage(source: imageSource))!.path);
-    // File imageFile = await getImageFileFromAssets('glass17.jpg');
-    List<int> imageBytes = imageFile.readAsBytesSync();
-    final Img.Image? image = Img.decodeImage(Uint8List.fromList(imageBytes));
-    if (image != null) {
-      final Img.Image resizedImage =
-          Img.copyResize(image, width: 224, height: 224);
-      if (context.mounted) {
-        return await Provider.of<ClassificationState>(context, listen: false)
-            .predict(createShapedList(resizedImage));
-      }
+    final Img.Image? image = Img.decodeImage(Uint8List.fromList(
+        File((await ImagePicker().pickImage(source: imageSource))!.path)
+            .readAsBytesSync()));
+    if (image != null && context.mounted) {
+      return await Provider.of<ClassificationState>(context, listen: false)
+          .predict(Img.copyResize(image,
+              width: classificationWidth, height: classificiationHeight));
     }
     return "Selection Failed";
-  }
-
-  PreProcessedImage createShapedList(Img.Image image) {
-    const int width = 224;
-    const int height = 224;
-    final List<List<List<num>>> shapedList = List.generate(
-      height,
-      (y) => List.generate(
-        width,
-        (x) {
-          final pixel = image.getPixel(x, y);
-          return [pixel.r, pixel.g, pixel.b];
-        },
-      ),
-    );
-    return [shapedList];
   }
 
   @override

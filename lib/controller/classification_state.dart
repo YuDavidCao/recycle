@@ -1,9 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:recycle/pages/home_page.dart';
+import 'package:recycle/constants.dart';
 
 import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
+
+import 'package:image/image.dart' as Img;
 
 import 'dart:math';
 
@@ -11,27 +13,11 @@ typedef Model = tfl.Interpreter;
 
 String modelPath = 'assets/model.tflite';
 
-final List<String> labels = [
-  'cardboard',
-  'glass',
-  'metal',
-  'paper',
-  'plastic',
-  'trash'
-];
-
 class ClassificationState extends ChangeNotifier {
   Model? model;
 
-  tfl.Tensor? inputTensor;
-  tfl.Tensor? outputTensor;
-
   Future<void> loadModel() async {
     model = await tfl.Interpreter.fromAsset(modelPath);
-    inputTensor = model?.getInputTensors().first;
-    inputTensor = model?.getOutputTensors().first;
-    print(inputTensor?.shape);
-    print(outputTensor?.shape);
   }
 
   List<List<List<List<double>>>> generateRandomList(
@@ -45,32 +31,39 @@ class ClassificationState extends ChangeNotifier {
                 dim3,
                 (_) =>
                     List<double>.generate(dim4, (_) => random.nextDouble()))));
-    print(randomList.shape);
     return randomList;
   }
 
-
-  Future<String> predict(PreProcessedImage image) async {
+  Future<String> predict(Img.Image image) async {
     if (model == null) {
       await loadModel();
     }
+    final List<List<List<num>>> shapedList = List.generate(
+      classificiationHeight,
+      (y) => List.generate(
+        classificationWidth,
+        (x) {
+          final pixel = image.getPixel(x, y);
+          return [pixel.r, pixel.g, pixel.b];
+        },
+      ),
+    );
     List<dynamic> output = [
-      [0, 0, 0, 0, 0, 0]
+      List.generate(classificationLabels.length, (_) => 0)
     ];
-    model?.run(image, output);
-    print(output);
+    model?.run([shapedList], output);
     return decodeLabel(output);
   }
 
   String decodeLabel(List<dynamic> rawOutput) {
     int maxIndex = 0;
     double maxValue = rawOutput[0][0];
-    for (int i = 1; i < 6; i++) {
+    for (int i = 1; i < classificationLabels.length; i++) {
       if (rawOutput[0][i] > maxValue) {
         maxValue = rawOutput[0][i];
         maxIndex = i;
       }
     }
-    return labels[maxIndex];
+    return classificationLabels[maxIndex];
   }
 }

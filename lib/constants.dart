@@ -10,6 +10,19 @@ const Color thirtyUIColor = Color(0xFF0E2C71);
 
 const Color tenUIColor = Color.fromRGBO(230, 188, 107, 1);
 
+const int classificationWidth = 224;
+
+const int classificiationHeight = 224;
+
+const List<String> classificationLabels = [
+  'cardboard',
+  'glass',
+  'metal',
+  'paper',
+  'plastic',
+  'trash'
+];
+
 const LinearGradient goldLinearGradient = LinearGradient(
   begin: Alignment(0, -1),
   end: Alignment(0, 1),
@@ -27,4 +40,3 @@ const LinearGradient blueLinearGradient = LinearGradient(
     Color(0xFF0b1f41),
   ],
 );
-
