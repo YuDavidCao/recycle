@@ -7,7 +7,6 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
 import 'package:image/image.dart' as Img;
 
-import 'dart:math';
 
 typedef Model = tfl.Interpreter;
 
@@ -51,19 +50,5 @@ class ClassificationState extends ChangeNotifier {
       }
     }
     return classificationLabels[maxIndex];
-  }
-
-  List<List<List<List<double>>>> generateRandomList(
-      int dim1, int dim2, int dim3, int dim4) {
-    Random random = Random();
-    List<List<List<List<double>>>> randomList = List.generate(
-        dim1,
-        (_) => List.generate(
-            dim2,
-            (_) => List.generate(
-                dim3,
-                (_) =>
-                    List<double>.generate(dim4, (_) => random.nextDouble()))));
-    return randomList;
   }
 }
