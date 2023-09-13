@@ -7,10 +7,9 @@ import 'package:tflite_flutter/tflite_flutter.dart' as tfl;
 
 import 'package:image/image.dart' as Img;
 
-
 typedef Model = tfl.Interpreter;
 
-String modelPath = 'assets/model.tflite';
+const String modelPath = 'assets/model.tflite';
 
 class ClassificationState extends ChangeNotifier {
   Model? model;

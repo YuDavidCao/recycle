@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_state.dart';
+import 'package:recycle/route.dart';
 import 'pages.dart';
 
 Future<void> main() async {
@@ -29,12 +30,21 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'App',
           theme: ThemeData(
-            primarySwatch: Colors.cyan,
+            primarySwatch: const MaterialColor(0xFF50C878, {
+              50: Color(0xFF50C878),
+              100: Color(0xFF50C878),
+              200: Color(0xFF50C878),
+              300: Color(0xFF50C878),
+              400: Color(0xFF50C878),
+              500: Color(0xFF50C878),
+              600: Color(0xFF50C878),
+              700: Color(0xFF50C878),
+              800: Color(0xFF50C878),
+              900: Color(0xFF50C878),
+            }),
           ),
-          initialRoute: '/Home',
-          routes: {
-            '/Home': (context) => const HomePage(),
-          },
+          home: const HomePage(),
+          onGenerateRoute: RouteGenerator.generateRoute,
         ),
       ),
     );
