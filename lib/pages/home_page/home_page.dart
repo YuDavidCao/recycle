@@ -9,6 +9,7 @@ import 'package:recycle/constants.dart';
 import 'package:recycle/controller/classification_state.dart';
 
 import 'package:image/image.dart' as Img;
+import 'package:recycle/controller/daily_progress_state.dart';
 
 typedef PreProcessedImage = List<List<List<List<num>>>>;
 
@@ -41,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          const DailyProgressIndicator(),
           Center(
             child: Text(
               currentLabel,
@@ -88,18 +90,21 @@ class DailyProgressIndicator extends StatefulWidget {
 }
 
 class _DailyProgressIndicatorState extends State<DailyProgressIndicator> {
-
   @override
   Widget build(BuildContext context) {
-    return LinearPercentIndicator(
-      width: MediaQuery.of(context).size.width - 50,
-      animation: true,
-      lineHeight: 20.0,
-      animationDuration: 2500,
-      percent: 0.8,
-      center: Text("80.0%"),
-      linearStrokeCap: LinearStrokeCap.roundAll,
-      progressColor: Colors.green,
+    return Consumer<DailyProgressState>(
+      builder: (context, DailyProgressState dailyProgressState, child) {
+        return LinearPercentIndicator(
+          width: MediaQuery.of(context).size.width - globalEdgePadding * 2,
+          animation: true,
+          lineHeight: globalEdgePadding,
+          animationDuration: 2500,
+          percent: dailyProgressState.currentPercentage,
+          center: Text(
+              "${(dailyProgressState.currentPercentage * 100).toStringAsFixed(1)}%"),
+          progressColor: Colors.green,
+        );
+      },
     );
   }
 }

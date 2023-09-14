@@ -4,15 +4,20 @@ import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_state.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/model/daily_progress_model.dart';
 import 'package:recycle/route.dart';
 import 'pages.dart';
 
 late Box settingBox;
 late Box dailyProgressBox;
 
+//TODO reset statistic needs to be done quick --- for testing and developing purpose
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Hive.init((await getApplicationDocumentsDirectory()).path);
+  Hive.registerAdapter(DailyProgressModelAdapter());
   settingBox = await Hive.openBox('setting');
   dailyProgressBox = await Hive.openBox('dailyProgress');
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
@@ -29,6 +34,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
             create: (_) => ClassificationState()..loadModel()),
+        ChangeNotifierProvider(
+            create: (_) => DailyProgressState()..initFunction()),
       ],
       child: GestureDetector(
         onTap: () {

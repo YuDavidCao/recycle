@@ -12,6 +12,8 @@ const Color thirtyUIColor = Color(0xFF50C878);
 
 const Color tenUIColor = Colors.amber;
 
+const int dailyClassificationThreshold = 30;
+
 const int classificationWidth = 224;
 
 const int classificiationHeight = 224;
