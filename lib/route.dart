@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:recycle/constants.dart';
 
-import 'package:recycle/pages/home_page.dart';
+import 'package:recycle/pages/home_page/home_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

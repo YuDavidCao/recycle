@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_state.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:recycle/route.dart';
 import 'pages.dart';
 
+late Box settingBox;
+late Box dailyProgressBox;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Hive.init((await getApplicationDocumentsDirectory()).path);
+  settingBox = await Hive.openBox('setting');
+  dailyProgressBox = await Hive.openBox('dailyProgress');
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
   runApp(const MyApp());
