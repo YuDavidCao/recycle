@@ -10,6 +10,7 @@ import 'package:recycle/controller/classification_state.dart';
 
 import 'package:image/image.dart' as Img;
 import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/ultilities.dart';
 
 typedef PreProcessedImage = List<List<List<List<num>>>>;
 
@@ -40,13 +41,65 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const DailyProgressIndicator(),
-          Center(
-            child: Text(
-              currentLabel,
-              style: const TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
+          const SizedBox(
+            height: globalEdgePadding,
+          ),
+          LinearPercentIndicator(),
+          Flexible(
+            child: GridView.count(
+              primary: false,
+              padding: const EdgeInsets.all(globalEdgePadding),
+              crossAxisSpacing: globalMarginPadding,
+              mainAxisSpacing: globalMarginPadding,
+              crossAxisCount: 2,
+              children: [
+                ...classificationLabels.map(
+                  (String type) => Container(
+                    padding: const EdgeInsets.all(globalMarginPadding),
+                    color: thirtyUIColor,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Text(type),
+                            ),
+                            Positioned(
+                              right: -16,
+                              top: -16,
+                              child: IconButton(
+                                  onPressed: () {
+                                    displayTypeInfo(context, type);
+                                  },
+                                  icon: const Icon(Icons.arrow_right)),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Column(
+                                children: [
+                                  const SizedBox(
+                                    height: globalEdgePadding,
+                                  ),
+                                  AspectRatio(
+                                    aspectRatio: 1.2,
+                                    child: Image.asset(
+                                      "assets/images/$type.png",
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
           )
         ],
@@ -55,10 +108,11 @@ class _HomePageState extends State<HomePage> {
         children: [
           FloatingActionButton(
             onPressed: () async {
-              String tempLabel = await selectPicture(ImageSource.camera);
-              setState(() {
-                currentLabel = tempLabel;
-              });
+              Utilities.testPrint();
+              // String tempLabel = await selectPicture(ImageSource.camera);
+              // setState(() {
+              //   currentLabel = tempLabel;
+              // });
             },
             backgroundColor: tenUIColor,
             child: const Icon(Icons.camera_alt),
@@ -67,11 +121,14 @@ class _HomePageState extends State<HomePage> {
             width: globalEdgePadding,
           ),
           FloatingActionButton(
+            //TODO
             onPressed: () async {
-              String tempLabel = await selectPicture(ImageSource.camera);
-              setState(() {
-                currentLabel = tempLabel;
-              });
+              Provider.of<DailyProgressState>(context, listen: false)
+                  .incrementDailyProgress("metal");
+              // String tempLabel = await selectPicture(ImageSource.camera);
+              // setState(() {
+              //   currentLabel = tempLabel;
+              // });
             },
             backgroundColor: tenUIColor,
             child: const Icon(Icons.upload),
@@ -106,5 +163,63 @@ class _DailyProgressIndicatorState extends State<DailyProgressIndicator> {
         );
       },
     );
+  }
+}
+
+void displayTypeInfo(BuildContext context, String type) async {
+  await showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      builder: (context) {
+        return const HelperSheet();
+      });
+}
+
+class HelperSheet extends StatefulWidget {
+  const HelperSheet({super.key});
+
+  @override
+  State<HelperSheet> createState() => _HelperSheetState();
+}
+
+class _HelperSheetState extends State<HelperSheet> {
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+        expand: false,
+        initialChildSize: 0.9,
+        minChildSize: 0.2,
+        maxChildSize: 0.9,
+        builder: ((context, scrollController) {
+          return Column(
+            children: [
+              const SizedBox(
+                height: 10,
+              ),
+              Container(
+                width: 60,
+                height: 7,
+                decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(10)),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [],
+              ),
+            ],
+          );
+        }));
   }
 }

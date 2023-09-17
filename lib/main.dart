@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
             create: (_) => ClassificationState()..loadModel()),
         ChangeNotifierProvider(
-            create: (_) => DailyProgressState()..initFunction()),
+            create: (_) => DailyProgressState()..calcDailyProgress()),
       ],
       child: GestureDetector(
         onTap: () {

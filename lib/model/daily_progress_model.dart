@@ -8,25 +8,25 @@ class DailyProgressModel extends HiveObject {
   final DateTime? progressDateTime;
 
   @HiveField(1)
-  final int totalCount;
+  int totalCount;
 
   @HiveField(2)
-  final int cardboardCount;
+  int cardboardCount;
 
   @HiveField(3)
-  final int glassCount;
+  int glassCount;
 
   @HiveField(4)
-  final int metalCount;
+  int metalCount;
 
   @HiveField(5)
-  final int paperCount;
+  int paperCount;
 
   @HiveField(6)
-  final int plasticCount;
+  int plasticCount;
 
   @HiveField(7)
-  final int trash;
+  int trash;
 
   DailyProgressModel({
     required this.progressDateTime,

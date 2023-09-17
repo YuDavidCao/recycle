@@ -21,7 +21,7 @@ class DailyProgressState extends ChangeNotifier {
     _currentTotalCount = value;
   }
 
-  void initFunction() async {
+  void calcDailyProgress() async {
     final String keyTerm = DateTime.now().getDateOnly().toString();
     if (!dailyProgressBox.containsKey(keyTerm)) {
       await dailyProgressBox.put(
@@ -40,5 +40,34 @@ class DailyProgressState extends ChangeNotifier {
     currentPercentage =
         currentTotalCount.toDouble() / dailyClassificationThreshold.toDouble();
     notifyListeners();
+  }
+
+  void incrementDailyProgress(String type) {
+    final String keyTerm = DateTime.now().getDateOnly().toString();
+    DailyProgressModel dailyProgressModel = dailyProgressBox.get(keyTerm);
+    switch (type) {
+      case "cardboard":
+        dailyProgressModel.cardboardCount++;
+        break;
+      case "glass":
+        dailyProgressModel.glassCount++;
+        break;
+      case "metal":
+        dailyProgressModel.metalCount++;
+        break;
+      case "paper":
+        dailyProgressModel.paperCount++;
+        break;
+      case "plastic":
+        dailyProgressModel.plasticCount++;
+        break;
+      case "trash":
+        dailyProgressModel.trash++;
+        break;
+      default:
+    }
+    dailyProgressModel.totalCount++;
+    dailyProgressBox.put(keyTerm, dailyProgressModel);
+    calcDailyProgress();
   }
 }

@@ -3,6 +3,9 @@ import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:recycle/custom_extensions.dart';
+import 'package:recycle/main.dart';
+import 'package:recycle/widgets/global_logger.dart';
 
 class Utilities {
   static Future<File> getImageFileFromAssets(String path) async {
@@ -13,7 +16,7 @@ class Utilities {
     return file;
   }
 
-  List<List<List<List<double>>>> generateRandomImageList(
+  static List<List<List<List<double>>>> generateRandomImageList(
       int dim1, int dim2, int dim3, int dim4) {
     Random random = Random();
     List<List<List<List<double>>>> randomList = List.generate(
@@ -25,5 +28,10 @@ class Utilities {
                 (_) =>
                     List<double>.generate(dim4, (_) => random.nextDouble()))));
     return randomList;
+  }
+
+  static testPrint() {
+    GlobalLogger.log(
+        dailyProgressBox.get(DateTime.now().getDateOnly().toString()));
   }
 }
