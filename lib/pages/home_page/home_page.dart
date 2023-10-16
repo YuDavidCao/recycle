@@ -25,13 +25,28 @@ class _HomePageState extends State<HomePage> {
   String currentLabel = "None";
 
   Future<String> selectPicture(ImageSource imageSource) async {
-    final Img.Image? image = Img.decodeImage(Uint8List.fromList(
-        File((await ImagePicker().pickImage(source: imageSource))!.path)
-            .readAsBytesSync()));
-    if (image != null && context.mounted) {
-      return await Provider.of<ClassificationState>(context, listen: false)
-          .predict(Img.copyResize(image,
-              width: classificationWidth, height: classificiationHeight));
+    XFile? imageXfile = await ImagePicker().pickImage(source: imageSource);
+    try {
+      if (imageXfile != null) {
+        File imgFile = File(imageXfile.path);
+        if (context.mounted) {
+          Provider.of<ClassificationState>(context, listen: false)
+              .currentImage = Image.file(imgFile);
+        }
+        final Img.Image? image =
+            Img.decodeImage(Uint8List.fromList(imgFile.readAsBytesSync()));
+        if (context.mounted) {
+          return await Provider.of<ClassificationState>(context, listen: false)
+              .predict(Img.copyResize(image!,
+                  width: classificationWidth, height: classificiationHeight));
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Something wrong happened')));
+      }
+      return "Selection Failed";
     }
     return "Selection Failed";
   }
@@ -45,7 +60,28 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: globalEdgePadding,
           ),
-          LinearPercentIndicator(),
+          Padding(
+            padding: globalMiddleWidgetPadding,
+            child: Consumer<DailyProgressState>(
+              builder: (context, DailyProgressState dailyProgressState, child) {
+                return Column(
+                  children: [
+                    Text("${dailyProgressState.currentTotalCount} / 30"),
+                    LinearPercentIndicator(
+                      barRadius: const Radius.circular(10),
+                      padding: const EdgeInsets.all(0),
+                      backgroundColor: Colors.grey,
+                      progressColor: Colors.amber,
+                      animation: true,
+                      lineHeight: globalEdgePadding,
+                      // percent: 0.2,
+                      percent: dailyProgressState.currentPercentage,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
           Flexible(
             child: GridView.count(
               primary: false,
@@ -108,11 +144,12 @@ class _HomePageState extends State<HomePage> {
         children: [
           FloatingActionButton(
             onPressed: () async {
-              Utilities.testPrint();
-              // String tempLabel = await selectPicture(ImageSource.camera);
-              // setState(() {
-              //   currentLabel = tempLabel;
-              // });
+              // Utilities.testPrint();
+              String label = await selectPicture(ImageSource.camera);
+              if (context.mounted) {
+                Navigator.of(context)
+                    .pushNamed("/ClassificationLabelPage", arguments: [label]);
+              }
             },
             backgroundColor: tenUIColor,
             child: const Icon(Icons.camera_alt),
@@ -123,12 +160,13 @@ class _HomePageState extends State<HomePage> {
           FloatingActionButton(
             //TODO
             onPressed: () async {
-              Provider.of<DailyProgressState>(context, listen: false)
-                  .incrementDailyProgress("metal");
-              // String tempLabel = await selectPicture(ImageSource.camera);
-              // setState(() {
-              //   currentLabel = tempLabel;
-              // });
+              // Provider.of<DailyProgressState>(context, listen: false)
+              //     .incrementDailyProgress("metal");
+              String label = await selectPicture(ImageSource.gallery);
+              if (context.mounted) {
+                Navigator.of(context)
+                    .pushNamed("/ClassificationLabelPage", arguments: [label]);
+              }
             },
             backgroundColor: tenUIColor,
             child: const Icon(Icons.upload),
@@ -139,32 +177,32 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class DailyProgressIndicator extends StatefulWidget {
-  const DailyProgressIndicator({super.key});
+// class DailyProgressIndicator extends StatefulWidget {
+//   const DailyProgressIndicator({super.key});
 
-  @override
-  State<DailyProgressIndicator> createState() => _DailyProgressIndicatorState();
-}
+//   @override
+//   State<DailyProgressIndicator> createState() => _DailyProgressIndicatorState();
+// }
 
-class _DailyProgressIndicatorState extends State<DailyProgressIndicator> {
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<DailyProgressState>(
-      builder: (context, DailyProgressState dailyProgressState, child) {
-        return LinearPercentIndicator(
-          width: MediaQuery.of(context).size.width - globalEdgePadding * 2,
-          animation: true,
-          lineHeight: globalEdgePadding,
-          animationDuration: 2500,
-          percent: dailyProgressState.currentPercentage,
-          center: Text(
-              "${(dailyProgressState.currentPercentage * 100).toStringAsFixed(1)}%"),
-          progressColor: Colors.green,
-        );
-      },
-    );
-  }
-}
+// class _DailyProgressIndicatorState extends State<DailyProgressIndicator> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Consumer<DailyProgressState>(
+//       builder: (context, DailyProgressState dailyProgressState, child) {
+//         return LinearPercentIndicator(
+//           width: MediaQuery.of(context).size.width - globalEdgePadding * 2,
+//           animation: true,
+//           lineHeight: globalEdgePadding,
+//           animationDuration: 2500,
+//           percent: dailyProgressState.currentPercentage,
+//           center: Text(
+//               "${(dailyProgressState.currentPercentage * 100).toStringAsFixed(1)}%"),
+//           progressColor: Colors.green,
+//         );
+//       },
+//     );
+//   }
+// }
 
 void displayTypeInfo(BuildContext context, String type) async {
   await showModalBottomSheet(

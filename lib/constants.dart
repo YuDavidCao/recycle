@@ -44,3 +44,9 @@ const LinearGradient blueLinearGradient = LinearGradient(
     thirtyUIColor,
   ],
 );
+
+const EdgeInsets globalMiddleWidgetPadding = EdgeInsets.fromLTRB(
+    globalEdgePadding,
+    globalMarginPadding,
+    globalEdgePadding,
+    globalMarginPadding);

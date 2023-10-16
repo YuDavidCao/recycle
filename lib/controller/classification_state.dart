@@ -13,6 +13,13 @@ const String modelPath = 'assets/model.tflite';
 
 class ClassificationState extends ChangeNotifier {
   Model? model;
+  Image? _currentImage;
+
+  Image? get currentImage => _currentImage;
+
+  set currentImage(Image? value) {
+    _currentImage = value;
+  }
 
   Future<void> loadModel() async {
     model = await tfl.Interpreter.fromAsset(modelPath);
