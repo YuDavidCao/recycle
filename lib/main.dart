@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
@@ -5,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/firebase_options.dart';
 import 'package:recycle/model/daily_progress_model.dart';
 import 'package:recycle/route.dart';
 import 'pages.dart';
@@ -16,6 +18,7 @@ late Box dailyProgressBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   Hive.init((await getApplicationDocumentsDirectory()).path);
   Hive.registerAdapter(DailyProgressModelAdapter());
   settingBox = await Hive.openBox('setting');
