@@ -146,7 +146,7 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               // Utilities.testPrint();
               String label = await selectPicture(ImageSource.camera);
-              if (context.mounted) {
+              if (label != "Selection Failed" && context.mounted) {
                 Navigator.of(context)
                     .pushNamed("/ClassificationLabelPage", arguments: [label]);
               }
@@ -163,7 +163,7 @@ class _HomePageState extends State<HomePage> {
               // Provider.of<DailyProgressState>(context, listen: false)
               //     .incrementDailyProgress("metal");
               String label = await selectPicture(ImageSource.gallery);
-              if (context.mounted) {
+              if (label != "Selection Failed" && context.mounted) {
                 Navigator.of(context)
                     .pushNamed("/ClassificationLabelPage", arguments: [label]);
               }
@@ -224,11 +224,6 @@ class HelperSheet extends StatefulWidget {
 }
 
 class _HelperSheetState extends State<HelperSheet> {
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
