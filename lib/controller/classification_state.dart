@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:recycle/constants.dart';
@@ -13,6 +14,14 @@ const String modelPath = 'assets/model.tflite';
 
 class ClassificationState extends ChangeNotifier {
   Model? model;
+  File? _filePath;
+
+  File? get filePath => _filePath;
+
+  set filePath(File? value) {
+    _filePath = value;
+  }
+
   Image? _currentImage;
 
   Image? get currentImage => _currentImage;

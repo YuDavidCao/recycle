@@ -1,7 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/classification_state.dart';
+import 'package:recycle/firebase/firebase_firestore_service.dart';
+import 'package:recycle/firebase/firebase_storage_service.dart';
 
 class ClassificationLabelPage extends StatefulWidget {
   final String label;
@@ -30,7 +33,7 @@ class _ClassificationLabelPageState extends State<ClassificationLabelPage> {
           ),
           ElevatedButton(
               onPressed: () {
-                reportPredictionError(context);
+                reportPredictionError(context, widget.label);
               },
               child: const Text("Prediction Wrong?"))
         ],
@@ -39,7 +42,7 @@ class _ClassificationLabelPageState extends State<ClassificationLabelPage> {
   }
 }
 
-void reportPredictionError(BuildContext context) async {
+void reportPredictionError(BuildContext context, String currentLabel) async {
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -47,12 +50,15 @@ void reportPredictionError(BuildContext context) async {
         borderRadius: BorderRadius.circular(10.0),
       ),
       builder: (context) {
-        return const Scaffold();
+        return Scaffold(
+          body: PredictionErrorSheet(currentLabel: currentLabel),
+        );
       });
 }
 
 class PredictionErrorSheet extends StatefulWidget {
-  const PredictionErrorSheet({super.key});
+  final String currentLabel;
+  const PredictionErrorSheet({super.key, required this.currentLabel});
 
   @override
   State<PredictionErrorSheet> createState() => _PredictionErrorSheetState();
@@ -60,16 +66,6 @@ class PredictionErrorSheet extends StatefulWidget {
 
 class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
   int selectedValue = 0;
-
-  final List<String> options = [
-    "Option 1",
-    "Option 2",
-    "Option 3",
-    "Option 4",
-    "Option 5",
-    "Option 6",
-    "Option 7",
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -94,15 +90,12 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [],
-              ),
+              const Text("What should the correct classification be?"),
               ListView.builder(
-                itemCount: options.length,
+                itemCount: classificationLabels.length,
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(options[index]),
+                    title: Text(classificationLabels[index]),
                     leading: Radio(
                       value: index,
                       groupValue: selectedValue,
@@ -114,7 +107,22 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
                     ),
                   );
                 },
-              )
+              ),
+              ElevatedButton(
+                  onPressed: () async {
+                    String documentId =
+                        FirebaseFirestoreService.submitErrorWithoutPicture(
+                            widget.currentLabel,
+                            classificationLabels[selectedValue],
+                            context);
+                    FirebaseStorageService.submitErrorPicture(
+                        Provider.of<ClassificationState>(context, listen: false)
+                            .filePath!,
+                        widget.currentLabel,
+                        classificationLabels[selectedValue],
+                        documentId);
+                  },
+                  child: const Text("Submit"))
             ],
           );
         }));

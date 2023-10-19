@@ -47,6 +47,8 @@ dependencies:
   hive_flutter: 
   logger: ^2.0.2
   firebase_core: ^2.18.0
+  cloud_firestore: ^4.11.0
+  firebase_storage: ^11.3.1
 
 
 

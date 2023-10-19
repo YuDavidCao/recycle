@@ -30,6 +30,8 @@ class _HomePageState extends State<HomePage> {
       if (imageXfile != null) {
         File imgFile = File(imageXfile.path);
         if (context.mounted) {
+          Provider.of<ClassificationState>(context, listen: false).filePath =
+              imgFile;
           Provider.of<ClassificationState>(context, listen: false)
               .currentImage = Image.file(imgFile);
         }
