@@ -154,6 +154,7 @@ class _HomePageState extends State<HomePage> {
               }
             },
             backgroundColor: tenUIColor,
+            heroTag: null,
             child: const Icon(Icons.camera_alt),
           ),
           const SizedBox(
@@ -171,6 +172,7 @@ class _HomePageState extends State<HomePage> {
               }
             },
             backgroundColor: tenUIColor,
+            heroTag: null,
             child: const Icon(Icons.upload),
           )
         ],

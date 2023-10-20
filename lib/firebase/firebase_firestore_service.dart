@@ -6,17 +6,17 @@ class FirebaseFirestoreService {
   //     String errorLabel, String intendedCorrectLabel, String imageId) async {}
 
   // image file is randomized to firestore data path
-  static submitErrorWithoutPicture(String errorLabel,
+  static Future<DocumentReference?> submitErrorWithoutPicture(String errorLabel,
       String intendedCorrectLabel, BuildContext context) async {
     try {
       return await FirebaseFirestore.instance.collection("Image").add({
         "errorLabel": errorLabel,
-        'cardboard': intendedCorrectLabel == "cardboard" ? 0 : 1,
-        'glass': intendedCorrectLabel == "glass" ? 0 : 1,
-        'metal': intendedCorrectLabel == "metal" ? 0 : 1,
-        'paper': intendedCorrectLabel == "paper" ? 0 : 1,
-        'plastic': intendedCorrectLabel == "plastic" ? 0 : 1,
-        'trash': intendedCorrectLabel == "trash" ? 0 : 1,
+        'cardboard': intendedCorrectLabel == "cardboard" ? 1 : 0,
+        'glass': intendedCorrectLabel == "glass" ? 1 : 0,
+        'metal': intendedCorrectLabel == "metal" ? 1 : 0,
+        'paper': intendedCorrectLabel == "paper" ? 1 : 0,
+        'plastic': intendedCorrectLabel == "plastic" ? 1 : 0,
+        'trash': intendedCorrectLabel == "trash" ? 1 : 0,
       });
     } catch (e) {
       ScaffoldMessenger.of(context)

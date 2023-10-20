@@ -50,9 +50,7 @@ void reportPredictionError(BuildContext context, String currentLabel) async {
         borderRadius: BorderRadius.circular(10.0),
       ),
       builder: (context) {
-        return Scaffold(
-          body: PredictionErrorSheet(currentLabel: currentLabel),
-        );
+        return PredictionErrorSheet(currentLabel: currentLabel);
       });
 }
 
@@ -90,37 +88,67 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
               const SizedBox(
                 height: 10,
               ),
-              const Text("What should the correct classification be?"),
-              ListView.builder(
-                itemCount: classificationLabels.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    title: Text(classificationLabels[index]),
-                    leading: Radio(
-                      value: index,
-                      groupValue: selectedValue,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedValue = value!;
-                        });
-                      },
-                    ),
-                  );
-                },
+              const SizedBox(
+                height: globalEdgePadding,
               ),
+              const Text(
+                "What should the correct classification be?",
+                style: TextStyle(fontSize: 18),
+              ),
+              const SizedBox(
+                height: globalEdgePadding,
+              ),
+              ...classificationLabels.asMap().entries.map((mapEntry) {
+                return ListTile(
+                  title: Text(mapEntry.value),
+                  leading: Radio(
+                    value: mapEntry.key,
+                    groupValue: selectedValue,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value!;
+                      });
+                    },
+                  ),
+                );
+              }).toList(),
+              // SizedBox(
+              //   height: MediaQuery.of(context).size.height / 3,
+              //   // constraints: BoxConstraints.tight(Size(double.infinity,500)),
+              //   child: ListView.builder(
+              //     itemCount: classificationLabels.length,
+              //     itemBuilder: (BuildContext context, int index) {
+              //       return ListTile(
+              //         title: Text(classificationLabels[index]),
+              //         leading: Radio(
+              //           value: index,
+              //           groupValue: selectedValue,
+              //           onChanged: (value) {
+              //             setState(() {
+              //               selectedValue = value!;
+              //             });
+              //           },
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
               ElevatedButton(
                   onPressed: () async {
-                    String documentId =
-                        FirebaseFirestoreService.submitErrorWithoutPicture(
-                            widget.currentLabel,
-                            classificationLabels[selectedValue],
-                            context);
-                    FirebaseStorageService.submitErrorPicture(
-                        Provider.of<ClassificationState>(context, listen: false)
-                            .filePath!,
-                        widget.currentLabel,
-                        classificationLabels[selectedValue],
-                        documentId);
+                    DocumentReference? documentReference =
+                        await FirebaseFirestoreService
+                            .submitErrorWithoutPicture(widget.currentLabel,
+                                classificationLabels[selectedValue], context);
+                    print(1);
+                    if (documentReference != null && context.mounted) {
+                      FirebaseStorageService.submitErrorPicture(
+                          Provider.of<ClassificationState>(context,
+                                  listen: false)
+                              .filePath!,
+                          widget.currentLabel,
+                          classificationLabels[selectedValue],
+                          documentReference.id);
+                    }
                   },
                   child: const Text("Submit"))
             ],
