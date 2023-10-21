@@ -65,7 +65,7 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
                 animation: true,
                 percent: dailyProgressState.currentPercentage,
                 center: Text(
-                  "${dailyProgressState.currentTotalCount} / 30",
+                  "${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold",
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 20.0),
                 ),

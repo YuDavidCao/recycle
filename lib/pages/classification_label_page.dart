@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/classification_state.dart';
+import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/firebase/firebase_firestore_service.dart';
 import 'package:recycle/firebase/firebase_storage_service.dart';
 
@@ -16,6 +17,12 @@ class ClassificationLabelPage extends StatefulWidget {
 }
 
 class _ClassificationLabelPageState extends State<ClassificationLabelPage> {
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

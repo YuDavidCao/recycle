@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/main.dart';
+import 'package:recycle/pages/statistic_page/custom_bar_chart.dart';
 import 'package:recycle/ultilities.dart';
 import 'package:recycle/widgets/global_drawer.dart';
 
@@ -51,6 +52,20 @@ class _StatisticPageState extends State<StatisticPage> {
           const SizedBox(
             height: globalEdgePadding,
           ),
+          const Text(
+            "Weekly Statistics",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(
+            height: globalEdgePadding,
+          ),
+          Flexible(
+              flex: 1,
+              child: BarChartSample1(
+                barChartData:
+                    Provider.of<DailyProgressState>(context, listen: false)
+                        .getBarChartData(),
+              )),
           // Consumer<DailyProgressState>(
           //   builder: (context, DailyProgressState dailyProgressState, child) {
           //     return CircularPercentIndicator(
@@ -75,14 +90,19 @@ class _StatisticPageState extends State<StatisticPage> {
           ...classificationLabels.map((String labelText) {
             return generateDataComponent(labelText,
                 totalStatisticBox.get("${labelText}Count").toString());
-          }).toList()
+          }).toList(),
+          const SizedBox(
+            height: globalEdgePadding * 4, // if no share we can make it to 1
+          ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        // Utilities.printStatistics();
-      }, child: const Icon(
-        Icons.share
-      ),),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Utilities.printStatistics();
+          Utilities.printDailyProgress();
+        },
+        child: const Icon(Icons.share),
+      ),
     );
   }
 }

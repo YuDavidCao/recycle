@@ -42,4 +42,13 @@ class Utilities {
     }
     print(totalStatisticBox.get("totalCount"));
   }
+
+  static printDailyProgress({DateTime? dateTime}) {
+    if (dateTime == null) {
+      GlobalLogger.log(
+          dailyProgressBox.get(DateTime.now().getDateOnly().toString()));
+    } else {
+      GlobalLogger.log(dailyProgressBox.get(dateTime.getDateOnly().toString()));
+    }
+  }
 }

@@ -12,6 +12,7 @@ import 'package:image/image.dart' as Img;
 import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/ultilities.dart';
 import 'package:recycle/widgets/global_drawer.dart';
+import 'package:recycle/widgets/global_logger.dart';
 
 typedef PreProcessedImage = List<List<List<List<num>>>>;
 
@@ -68,9 +69,10 @@ class _HomePageState extends State<HomePage> {
             padding: globalMiddleWidgetPadding,
             child: Consumer<DailyProgressState>(
               builder: (context, DailyProgressState dailyProgressState, child) {
+                GlobalLogger.log(1);
                 return Column(
                   children: [
-                    Text("${dailyProgressState.currentTotalCount} / 30"),
+                    Text("${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold"),
                     LinearPercentIndicator(
                       barRadius: const Radius.circular(10),
                       padding: const EdgeInsets.all(0),
@@ -151,6 +153,8 @@ class _HomePageState extends State<HomePage> {
               // Utilities.testPrint();
               String label = await selectPicture(ImageSource.camera);
               if (label != "Selection Failed" && context.mounted) {
+                Provider.of<DailyProgressState>(context, listen: false)
+                    .incrementDailyProgress(label);
                 Navigator.of(context)
                     .pushNamed("/ClassificationLabelPage", arguments: [label]);
               }
@@ -169,6 +173,8 @@ class _HomePageState extends State<HomePage> {
               //     .incrementDailyProgress("metal");
               String label = await selectPicture(ImageSource.gallery);
               if (label != "Selection Failed" && context.mounted) {
+                Provider.of<DailyProgressState>(context, listen: false)
+                    .incrementDailyProgress(label);
                 Navigator.of(context)
                     .pushNamed("/ClassificationLabelPage", arguments: [label]);
               }

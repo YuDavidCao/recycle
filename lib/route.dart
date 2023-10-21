@@ -4,7 +4,7 @@ import 'package:recycle/constants.dart';
 import 'package:recycle/pages/classification_label_page.dart';
 
 import 'package:recycle/pages/home_page/home_page.dart';
-import 'package:recycle/pages/statistic_page.dart';
+import 'package:recycle/pages/statistic_page/statistic_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

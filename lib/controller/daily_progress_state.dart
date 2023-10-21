@@ -70,4 +70,37 @@ class DailyProgressState extends ChangeNotifier {
     dailyProgressBox.put(keyTerm, dailyProgressModel);
     calcDailyProgress();
   }
+
+  static List<DateTime> getPreviousWeekdays({DateTime? inputDateTime}) {
+    inputDateTime = inputDateTime ?? DateTime.now();
+    List<DateTime> previousWeekdays = [];
+    bool start = false;
+    int i = -7;
+    while(previousWeekdays.length != 7){
+      DateTime wd = DateTime.now().getDateOnly().add(Duration(days: i));
+      if (wd.weekday == 1) {
+        start = true;
+      }
+      if (start) {
+        previousWeekdays.add(wd.getDateOnly());
+      }
+      i++;
+    }
+    return previousWeekdays;
+  }
+
+  List<double> getBarChartData() {
+    List<DateTime> previousWeekdays = getPreviousWeekdays();
+    List<double> barChartStatistics = [];
+    for (int i = 0; i < previousWeekdays.length; i++) {
+        print(previousWeekdays[i].toString());
+      if (dailyProgressBox.containsKey(previousWeekdays[i].toString())) {
+        barChartStatistics.add(
+            dailyProgressBox.get(previousWeekdays[i].toString()).totalCount.toDouble());
+      } else {
+        barChartStatistics.add(0);
+      }
+    }
+    return barChartStatistics;
+  }
 }
