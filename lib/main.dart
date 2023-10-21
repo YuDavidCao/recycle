@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:recycle/constants.dart';
 import 'package:recycle/controller/classification_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
@@ -13,6 +14,7 @@ import 'pages.dart';
 
 late Box settingBox;
 late Box dailyProgressBox;
+late Box totalStatisticBox;
 
 //TODO reset statistic needs to be done quick --- for testing and developing purpose
 
@@ -23,6 +25,14 @@ Future<void> main() async {
   Hive.registerAdapter(DailyProgressModelAdapter());
   settingBox = await Hive.openBox('setting');
   dailyProgressBox = await Hive.openBox('dailyProgress');
+  totalStatisticBox = await Hive.openBox("totalStatisticBox");
+  if (!settingBox.containsKey("first time initialization")) {
+    settingBox.put("first time initialization", true);
+    for (int i = 0; i < classificationLabels.length; i++) {
+      totalStatisticBox.put("${classificationLabels[i]}Count", 0);
+    }
+    totalStatisticBox.put("totalCount", 0);
+  }
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
       overlays: [SystemUiOverlay.top]);
   runApp(const MyApp());

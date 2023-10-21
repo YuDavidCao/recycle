@@ -4,6 +4,7 @@ import 'package:recycle/constants.dart';
 import 'package:recycle/pages/classification_label_page.dart';
 
 import 'package:recycle/pages/home_page/home_page.dart';
+import 'package:recycle/pages/statistic_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -11,6 +12,14 @@ class RouteGenerator {
       case '/HomePage':
         return PageTransition(
           child: const HomePage(),
+          type: PageTransitionType.rightToLeft,
+          duration: const Duration(milliseconds: globalPageTransitionTimer),
+          reverseDuration:
+              const Duration(milliseconds: globalPageTransitionTimer),
+        );
+      case '/StatisticPage':
+        return PageTransition(
+          child: const StatisticPage(),
           type: PageTransitionType.rightToLeft,
           duration: const Duration(milliseconds: globalPageTransitionTimer),
           reverseDuration:

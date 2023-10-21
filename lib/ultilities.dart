@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:recycle/constants.dart';
 import 'package:recycle/custom_extensions.dart';
 import 'package:recycle/main.dart';
 import 'package:recycle/widgets/global_logger.dart';
@@ -33,5 +34,12 @@ class Utilities {
   static testPrint() {
     GlobalLogger.log(
         dailyProgressBox.get(DateTime.now().getDateOnly().toString()));
+  }
+
+  static printStatistics() {
+    for (int i = 0; i < classificationLabels.length; i++) {
+      print(totalStatisticBox.get("${classificationLabels[i]}Count"));
+    }
+    print(totalStatisticBox.get("totalCount"));
   }
 }

@@ -11,6 +11,7 @@ import 'package:recycle/controller/classification_state.dart';
 import 'package:image/image.dart' as Img;
 import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/ultilities.dart';
+import 'package:recycle/widgets/global_drawer.dart';
 
 typedef PreProcessedImage = List<List<List<List<num>>>>;
 
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      drawer: const GlobalDrawer(currentPage: "HomePage"),
       body: Column(
         children: [
           const SizedBox(

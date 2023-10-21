@@ -17,11 +17,25 @@ class FirebaseFirestoreService {
         'paper': intendedCorrectLabel == "paper" ? 1 : 0,
         'plastic': intendedCorrectLabel == "plastic" ? 1 : 0,
         'trash': intendedCorrectLabel == "trash" ? 1 : 0,
+        'totalCounter': 1,
       });
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(const SnackBar(content: Text('Failed to upload data')));
       return null;
+    }
+  }
+
+  static Future<void> submitErroredPictureLabel(String documentId,
+      BuildContext context, String intendedCorrectLabel) async {
+    try {
+      FirebaseFirestore.instance.collection("Image").doc(documentId).update({
+        intendedCorrectLabel: FieldValue.increment(1),
+        'totalCounter': FieldValue.increment(1),
+      });
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(const SnackBar(content: Text('Failed to upload data')));
     }
   }
 }

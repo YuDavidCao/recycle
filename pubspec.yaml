@@ -41,7 +41,7 @@ dependencies:
   image:
   path_provider:
   page_transition:
-  percent_indicator:
+  percent_indicator: ^4.2.3
   google_fonts:
   hive: 
   hive_flutter: 
@@ -49,6 +49,7 @@ dependencies:
   firebase_core: ^2.18.0
   cloud_firestore: ^4.11.0
   firebase_storage: ^11.3.1
+  fl_chart: ^0.64.0
 
 
 
