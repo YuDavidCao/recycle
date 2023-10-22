@@ -68,6 +68,10 @@ class DailyProgressState extends ChangeNotifier {
     }
     dailyProgressModel.totalCount++;
     dailyProgressBox.put(keyTerm, dailyProgressModel);
+    totalStatisticBox.put(
+        "${type}Count", totalStatisticBox.get("${type}Count") + 1);
+    totalStatisticBox.put(
+        "totalCount", totalStatisticBox.get("totalCount") + 1);
     calcDailyProgress();
   }
 
@@ -76,7 +80,7 @@ class DailyProgressState extends ChangeNotifier {
     List<DateTime> previousWeekdays = [];
     bool start = false;
     int i = -7;
-    while(previousWeekdays.length != 7){
+    while (previousWeekdays.length != 7) {
       DateTime wd = DateTime.now().getDateOnly().add(Duration(days: i));
       if (wd.weekday == 1) {
         start = true;
@@ -94,8 +98,10 @@ class DailyProgressState extends ChangeNotifier {
     List<double> barChartStatistics = [];
     for (int i = 0; i < previousWeekdays.length; i++) {
       if (dailyProgressBox.containsKey(previousWeekdays[i].toString())) {
-        barChartStatistics.add(
-            dailyProgressBox.get(previousWeekdays[i].toString()).totalCount.toDouble());
+        barChartStatistics.add(dailyProgressBox
+            .get(previousWeekdays[i].toString())
+            .totalCount
+            .toDouble());
       } else {
         barChartStatistics.add(0);
       }

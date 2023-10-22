@@ -11,11 +11,9 @@ class PaperInfo extends StatefulWidget {
 
 class _PaperInfoState extends State<PaperInfo> {
   String introduction =
-      "Recycling paper is an essential step in conserving our environment and reducing our ecological footprint. By recycling paper, we can help save trees, reduce greenhouse gas emissions, and minimize waste. In this guide, we will walk you through the process of paper recycling and provide tips to make recycling paper a part of your daily routine.";
+      "Recycling paper is an essential step in conserving our environment and reducing our ecological footprint. By recycling paper, we can help save trees, reduce greenhouse gas emissions, and minimize waste.";
   String recyclablePapers = """
 •  Cups & Containers
-
-•  Flattened Cardboard
 
 •  Milk, Juice, & Soup Cartons
 
@@ -26,8 +24,6 @@ class _PaperInfoState extends State<PaperInfo> {
 •  Junk Mail & Office Paper""";
 
   String recyclingTips = """
-•  Flatten cardboard boxes to save space in your recycling bin.
-
 •  Remove non-paper materials, such as plastic windows on envelopes, before recycling.
 
 •  Recycle shredded paper in paper bags to prevent it from becoming litter.
@@ -41,8 +37,8 @@ class _PaperInfoState extends State<PaperInfo> {
         minChildSize: 0.2,
         maxChildSize: 0.9,
         builder: ((context, scrollController) {
-          return Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          return ListView(
+            // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
                 height: 10,
@@ -64,7 +60,7 @@ class _PaperInfoState extends State<PaperInfo> {
               ),
               Center(
                 child: Text(
-                  "Paper recycling",
+                  "Typical paper recyclables:",
                   style: GoogleFonts.roboto(
                       textStyle: const TextStyle(
                           fontSize: 18, fontWeight: FontWeight.bold)),
@@ -114,6 +110,9 @@ class _PaperInfoState extends State<PaperInfo> {
               Padding(
                 padding: globalMiddleWidgetPadding,
                 child: Text(recyclingTips, style: GoogleFonts.roboto()),
+              ),
+              const SizedBox(
+                height: globalEdgePadding * 3,
               ),
             ],
           );
