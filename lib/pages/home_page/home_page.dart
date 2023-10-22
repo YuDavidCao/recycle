@@ -10,6 +10,12 @@ import 'package:recycle/controller/classification_state.dart';
 
 import 'package:image/image.dart' as Img;
 import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/pages/info_sheets.dart/cardboard_info.dart';
+import 'package:recycle/pages/info_sheets.dart/glass_info.dart';
+import 'package:recycle/pages/info_sheets.dart/metal_info.dart';
+import 'package:recycle/pages/info_sheets.dart/paper_info.dart';
+import 'package:recycle/pages/info_sheets.dart/plastic_info.dart';
+import 'package:recycle/pages/info_sheets.dart/trash_info.dart';
 import 'package:recycle/ultilities.dart';
 import 'package:recycle/widgets/global_drawer.dart';
 import 'package:recycle/widgets/global_logger.dart';
@@ -69,10 +75,10 @@ class _HomePageState extends State<HomePage> {
             padding: globalMiddleWidgetPadding,
             child: Consumer<DailyProgressState>(
               builder: (context, DailyProgressState dailyProgressState, child) {
-                GlobalLogger.log(1);
                 return Column(
                   children: [
-                    Text("${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold"),
+                    Text(
+                        "Daily Goal:  ${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold"),
                     LinearPercentIndicator(
                       barRadius: const Radius.circular(10),
                       padding: const EdgeInsets.all(0),
@@ -224,47 +230,21 @@ void displayTypeInfo(BuildContext context, String type) async {
         borderRadius: BorderRadius.circular(10.0),
       ),
       builder: (context) {
-        return const HelperSheet();
+        switch (type) {
+          case 'cardboard':
+            return const CardBoardInfo();
+          case 'glass':
+            return const GlassInfo();
+          case 'metal':
+            return const MetalInfo();
+          case 'paper':
+            return const PaperInfo();
+          case 'plastic':
+            return const PlasticInfo();
+          case 'trash':
+            return const TrashInfo();
+          default:
+            return const Placeholder();
+        }
       });
-}
-
-class HelperSheet extends StatefulWidget {
-  const HelperSheet({super.key});
-
-  @override
-  State<HelperSheet> createState() => _HelperSheetState();
-}
-
-class _HelperSheetState extends State<HelperSheet> {
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-        expand: false,
-        initialChildSize: 0.9,
-        minChildSize: 0.2,
-        maxChildSize: 0.9,
-        builder: ((context, scrollController) {
-          return Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Container(
-                width: 60,
-                height: 7,
-                decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(10)),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [],
-              ),
-            ],
-          );
-        }));
-  }
 }

@@ -146,7 +146,6 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
                         await FirebaseFirestoreService
                             .submitErrorWithoutPicture(widget.currentLabel,
                                 classificationLabels[selectedValue], context);
-                    print(1);
                     if (documentReference != null && context.mounted) {
                       FirebaseStorageService.submitErrorPicture(
                           Provider.of<ClassificationState>(context,

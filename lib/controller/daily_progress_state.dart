@@ -93,7 +93,6 @@ class DailyProgressState extends ChangeNotifier {
     List<DateTime> previousWeekdays = getPreviousWeekdays();
     List<double> barChartStatistics = [];
     for (int i = 0; i < previousWeekdays.length; i++) {
-        print(previousWeekdays[i].toString());
       if (dailyProgressBox.containsKey(previousWeekdays[i].toString())) {
         barChartStatistics.add(
             dailyProgressBox.get(previousWeekdays[i].toString()).totalCount.toDouble());

@@ -57,6 +57,9 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
+          const SizedBox(
+            height: globalEdgePadding,
+          ),
           Consumer<DailyProgressState>(
             builder: (context, DailyProgressState dailyProgressState, child) {
               return CircularPercentIndicator(
@@ -89,6 +92,16 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             );
           }, "Statistic", widget.currentPage == "StatisticPage",
               Icons.analytics_outlined),
+          generateDrawerContainer(() {
+            //TODO
+          }, "Help with classification", widget.currentPage == "_",
+              Icons.remove_red_eye),
+          generateDrawerContainer(() {
+            //TODO
+          }, "Help", widget.currentPage == "_", Icons.help),
+          const SizedBox(
+            height: globalEdgePadding,
+          ),
         ],
       ),
     );

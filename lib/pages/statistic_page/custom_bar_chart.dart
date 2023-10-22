@@ -55,7 +55,7 @@ class BarChartSample1State extends State<BarChartSample1> {
           color: isTouched ? widget.touchedBarColor : barColor,
           width: width,
           borderSide: isTouched
-              ? BorderSide(color: thirtyUIColor)
+              ? const BorderSide(color: thirtyUIColor)
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,

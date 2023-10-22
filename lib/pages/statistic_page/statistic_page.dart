@@ -99,7 +99,8 @@ class _StatisticPageState extends State<StatisticPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Utilities.printStatistics();
-          Utilities.printDailyProgress();
+          // Utilities.printDailyProgress();
+          //TODO
         },
         child: const Icon(Icons.share),
       ),
