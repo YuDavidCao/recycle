@@ -31,7 +31,6 @@ Future<void> main() async {
     settingBox.put("first time initialization", true);
     settingBox.put("image tracking agreement", false);
     settingBox.put("image classification description", false);
-    settingBox.put("current index", 0);
     settingBox.put("prevDate", null);
     for (int i = 0; i < classificationLabels.length; i++) {
       totalStatisticBox.put("${classificationLabels[i]}Count", 0);

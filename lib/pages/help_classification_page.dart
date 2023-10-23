@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/controller/classification_helper_statr.dart';
 import 'package:recycle/firebase/firebase_storage_service.dart';
+import 'package:recycle/widgets/global_drawer.dart';
 
 class HelpClassificationPage extends StatefulWidget {
   const HelpClassificationPage({super.key});
@@ -13,8 +14,7 @@ class HelpClassificationPage extends StatefulWidget {
 class _HelpClassificationPageState extends State<HelpClassificationPage> {
   @override
   void initState() {
-    Provider.of<ClassificationHelperState>(context, listen: false)
-        .nextImage(context);
+    Provider.of<ClassificationHelperState>(context, listen: false).nextImage();
     super.initState();
   }
 
@@ -22,6 +22,9 @@ class _HelpClassificationPageState extends State<HelpClassificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      drawer: const GlobalDrawer(
+        currentPage: "HelpClassificationPage",
+      ),
       body: Consumer<ClassificationHelperState>(
         builder: (context, ClassificationHelperState classificationHelperState,
             child) {
@@ -33,7 +36,8 @@ class _HelpClassificationPageState extends State<HelpClassificationPage> {
                 FutureBuilder<Widget>(
                   future: FirebaseStorageService.getImageByDocumentId(
                       classificationHelperState.documentSnapshot!.id,
-                      classificationHelperState.documentSnapshot!["errorLabel"]),
+                      classificationHelperState
+                          .documentSnapshot!["errorLabel"]),
                   builder:
                       (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                     if (snapshot.hasData) {

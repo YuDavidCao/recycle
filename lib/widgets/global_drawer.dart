@@ -93,8 +93,10 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
           }, "Statistic", widget.currentPage == "StatisticPage",
               Icons.analytics_outlined),
           generateDrawerContainer(() {
-            //TODO
-          }, "Help with classification", widget.currentPage == "_",
+            Navigator.of(context).pushReplacementNamed(
+              '/HelpClassificationPage',
+            );
+          }, "Help with classification", widget.currentPage == "HelpClassificationPage",
               Icons.remove_red_eye),
           generateDrawerContainer(() {
             //TODO
