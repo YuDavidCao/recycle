@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
+import 'package:recycle/controller/classification_helper_statr.dart';
 import 'package:recycle/controller/classification_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
@@ -30,6 +31,8 @@ Future<void> main() async {
     settingBox.put("first time initialization", true);
     settingBox.put("image tracking agreement", false);
     settingBox.put("image classification description", false);
+    settingBox.put("current index", 0);
+    settingBox.put("prevDate", null);
     for (int i = 0; i < classificationLabels.length; i++) {
       totalStatisticBox.put("${classificationLabels[i]}Count", 0);
     }
@@ -51,6 +54,7 @@ class MyApp extends StatelessWidget {
             create: (_) => ClassificationState()..loadModel()),
         ChangeNotifierProvider(
             create: (_) => DailyProgressState()..calcDailyProgress()),
+        ChangeNotifierProvider(create: (_) => ClassificationHelperState()),
       ],
       child: GestureDetector(
         onTap: () {
