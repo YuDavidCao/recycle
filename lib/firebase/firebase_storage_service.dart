@@ -9,4 +9,12 @@ class FirebaseStorageService {
     final folderRef = storage.ref().child('image');
     await folderRef.child("/$errorLabel/$documentId").putFile(filePath);
   }
+
+  static Future<String> getImageByDocumentId(
+      String documentId, String errorLabel) async {
+    return await FirebaseStorage.instance
+        .ref()
+        .child("image/$errorLabel/$documentId")
+        .getDownloadURL();
+  }
 }

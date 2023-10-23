@@ -28,6 +28,8 @@ Future<void> main() async {
   totalStatisticBox = await Hive.openBox("totalStatisticBox");
   if (!settingBox.containsKey("first time initialization")) {
     settingBox.put("first time initialization", true);
+    settingBox.put("image tracking agreement", false);
+    settingBox.put("image classification description", false);
     for (int i = 0; i < classificationLabels.length; i++) {
       totalStatisticBox.put("${classificationLabels[i]}Count", 0);
     }

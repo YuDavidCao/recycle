@@ -18,6 +18,7 @@ class FirebaseFirestoreService {
         'plastic': intendedCorrectLabel == "plastic" ? 1 : 0,
         'trash': intendedCorrectLabel == "trash" ? 1 : 0,
         'totalCounter': 1,
+        "dateTime": DateTime.now()
       });
     } catch (e) {
       ScaffoldMessenger.of(context)

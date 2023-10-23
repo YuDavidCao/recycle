@@ -18,6 +18,8 @@ const int classificationWidth = 224;
 
 const int classificiationHeight = 224;
 
+const int imageClassificationSatisfactionConstant = 10;
+
 const List<String> classificationLabels = [
   'cardboard',
   'glass',
