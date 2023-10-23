@@ -8,6 +8,7 @@ const int globalPageTransitionTimer = 200;
 
 const Color sixtyUIColor = Colors.white;
 
+// const Color thirtyUIColor = Colors.white;
 const Color thirtyUIColor = Color(0xFF50C878);
 
 const Color tenUIColor = Colors.amber;

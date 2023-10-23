@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
-import 'package:recycle/controller/classification_helper_statr.dart';
+import 'package:recycle/controller/classification_helper_state.dart';
 import 'package:recycle/controller/classification_state.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:recycle/controller/daily_progress_state.dart';

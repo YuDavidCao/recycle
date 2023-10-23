@@ -105,7 +105,10 @@ class _HomePageState extends State<HomePage> {
                 ...classificationLabels.map(
                   (String type) => Container(
                     padding: const EdgeInsets.all(globalMarginPadding),
-                    color: thirtyUIColor,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(15)),
+                      color: thirtyUIColor,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
@@ -194,33 +197,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// class DailyProgressIndicator extends StatefulWidget {
-//   const DailyProgressIndicator({super.key});
-
-//   @override
-//   State<DailyProgressIndicator> createState() => _DailyProgressIndicatorState();
-// }
-
-// class _DailyProgressIndicatorState extends State<DailyProgressIndicator> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Consumer<DailyProgressState>(
-//       builder: (context, DailyProgressState dailyProgressState, child) {
-//         return LinearPercentIndicator(
-//           width: MediaQuery.of(context).size.width - globalEdgePadding * 2,
-//           animation: true,
-//           lineHeight: globalEdgePadding,
-//           animationDuration: 2500,
-//           percent: dailyProgressState.currentPercentage,
-//           center: Text(
-//               "${(dailyProgressState.currentPercentage * 100).toStringAsFixed(1)}%"),
-//           progressColor: Colors.green,
-//         );
-//       },
-//     );
-//   }
-// }
 
 void displayTypeInfo(BuildContext context, String type) async {
   await showModalBottomSheet(

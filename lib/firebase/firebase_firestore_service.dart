@@ -27,6 +27,15 @@ class FirebaseFirestoreService {
     }
   }
 
+  // static Future<void> submitClassification(String documentId, BuildContext context, String label) async {
+  //   try {
+  //     await FirebaseFirestore.instance.collection("Image").doc(documentId).update()
+  //   } catch (e) {
+  //     ScaffoldMessenger.of(context)
+  //         .showSnackBar(const SnackBar(content: Text('Failed to connect to the database')));
+  //   }
+  // }
+
   static Future<void> submitErroredPictureLabel(String documentId,
       BuildContext context, String intendedCorrectLabel) async {
     try {
