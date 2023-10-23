@@ -7,6 +7,13 @@ class ClassificationHelperState extends ChangeNotifier {
   final Query<Map<String, dynamic>> _currentQuery = FirebaseFirestore.instance
       .collection("Image")
       .orderBy('dateTime', descending: true);
+  DocumentSnapshot? _documentSnapshot;
+
+  DocumentSnapshot? get documentSnapshot => _documentSnapshot;
+
+  set documentSnapshot(DocumentSnapshot? value) {
+    _documentSnapshot = value;
+  }
 
   Future<List<DocumentSnapshot>?> getCurrentImageId(
       BuildContext context) async {
@@ -28,30 +35,27 @@ class ClassificationHelperState extends ChangeNotifier {
     }
   }
 
-  Future<void> filterImage(BuildContext context) async {
-    List<DocumentSnapshot>? currentImageDocument =
-        (await getCurrentImageId(context));
-    if (currentImageDocument != null) {
-      settingBox.put("prevDate", currentImageDocument[0]["dateTIme"].toDate());
-      bool passed = true;
-      while (true) {
-        passed = false;
-        if (context.mounted) {
-          currentImageDocument = (await getCurrentImageId(context));
-          if (currentImageDocument != null) {
-            settingBox.put(
-                "prevDate", currentImageDocument[0]["dateTIme"].toDate());
-          }
-          passed = true;
-        } 
-        // we are content if it passed (no error) and not null and still waiting to be classified.
-        if (passed &&
-            currentImageDocument != null &&
-            currentImageDocument[0]["totalCount"] <
-                imageClassificationSatisfactionConstant) {
-          break;
+  Future<void> nextImage(BuildContext context) async {
+    List<DocumentSnapshot>? currentImageDocument;
+    bool passed = true;
+    do {
+      passed = false;
+      if (context.mounted) {
+        currentImageDocument = (await getCurrentImageId(context));
+        if (currentImageDocument != null) {
+          settingBox.put(
+              "prevDate", currentImageDocument[0]["dateTIme"].toDate());
+          _documentSnapshot = currentImageDocument[0];
         }
+        passed = true;
       }
-    }
+      // we are content if it passed (no error) and not null and still waiting to be classified.
+      if (passed &&
+          currentImageDocument != null &&
+          currentImageDocument[0]["totalCount"] <
+              imageClassificationSatisfactionConstant) {
+        break;
+      }
+    } while (true);
   }
 }

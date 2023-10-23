@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 
 class FirebaseStorageService {
   static submitErrorPicture(File filePath, String errorLabel,
@@ -10,11 +11,14 @@ class FirebaseStorageService {
     await folderRef.child("/$errorLabel/$documentId").putFile(filePath);
   }
 
-  static Future<String> getImageByDocumentId(
+  static Future<Widget> getImageByDocumentId(
       String documentId, String errorLabel) async {
-    return await FirebaseStorage.instance
-        .ref()
-        .child("image/$errorLabel/$documentId")
-        .getDownloadURL();
+    return Image.network(
+      await FirebaseStorage.instance
+          .ref()
+          .child("image/$errorLabel/$documentId")
+          .getDownloadURL(),
+      fit: BoxFit.cover,
+    );
   }
 }
