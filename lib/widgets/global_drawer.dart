@@ -20,7 +20,7 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
         child: Container(
           decoration: (ifCurrent)
               ? BoxDecoration(
-                  color: thirtyUIColor,
+                  color: tenUIColor,
                   border: Border.all(color: Colors.black, width: 1),
                   borderRadius: const BorderRadius.all(Radius.circular(4)))
               : null,
@@ -41,9 +41,8 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
               ),
               Text(
                 text,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 17,
-                  color: (ifCurrent) ? Colors.white : Colors.black,
                 ),
               )
             ],

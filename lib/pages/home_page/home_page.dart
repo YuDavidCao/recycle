@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     LinearPercentIndicator(
                       barRadius: const Radius.circular(10),
                       padding: const EdgeInsets.all(0),
-                      backgroundColor: Colors.grey,
+                      backgroundColor: Color.fromARGB(255, 213, 213, 213),
                       progressColor: Colors.amber,
                       animation: true,
                       lineHeight: globalEdgePadding,
@@ -98,8 +98,8 @@ class _HomePageState extends State<HomePage> {
             child: GridView.count(
               primary: false,
               padding: const EdgeInsets.all(globalEdgePadding),
-              crossAxisSpacing: globalMarginPadding,
-              mainAxisSpacing: globalMarginPadding,
+              crossAxisSpacing: globalEdgePadding,
+              mainAxisSpacing: globalEdgePadding,
               crossAxisCount: 2,
               children: [
                 ...classificationLabels.map(

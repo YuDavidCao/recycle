@@ -96,14 +96,13 @@ class _StatisticPageState extends State<StatisticPage> {
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Utilities.printStatistics();
-          // Utilities.printDailyProgress();
-          //TODO
-        },
-        child: const Icon(Icons.share),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   backgroundColor: tenUIColor,
+      //   onPressed: () {
+      //     //TODO
+      //   },
+      //   child: const Icon(Icons.share),
+      // ),
     );
   }
 }

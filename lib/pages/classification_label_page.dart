@@ -19,7 +19,6 @@ class ClassificationLabelPage extends StatefulWidget {
 class _ClassificationLabelPageState extends State<ClassificationLabelPage> {
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -34,15 +33,15 @@ class _ClassificationLabelPageState extends State<ClassificationLabelPage> {
           Padding(
             padding: const EdgeInsets.all(globalEdgePadding),
             child: Text(
-              widget.label,
-              style: const TextStyle(fontSize: 20),
+              "This object is classified as ${widget.label}",
+              style: const TextStyle(fontSize: 18),
             ),
           ),
           ElevatedButton(
               onPressed: () {
                 reportPredictionError(context, widget.label);
               },
-              child: const Text("Prediction Wrong?"))
+              child: const Text("Wrong type?"))
         ],
       ),
     );
@@ -154,6 +153,7 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
                           widget.currentLabel,
                           classificationLabels[selectedValue],
                           documentReference.id);
+                      Navigator.pop(context);
                     }
                   },
                   child: const Text("Submit"))
@@ -161,4 +161,39 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
           );
         }));
   }
+}
+
+userConsent(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        content: SizedBox(
+          height: 150,
+          child: Column(
+            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              //TODO
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            child: const Text("Yes"),
+            onPressed: () {
+              //TODO
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
+            child: const Text("No"),
+            onPressed: () {
+              //TODO
+              Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    },
+  );
 }
