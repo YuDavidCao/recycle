@@ -1,6 +1,8 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -75,19 +77,40 @@ class _HomePageState extends State<HomePage> {
             padding: globalMiddleWidgetPadding,
             child: Consumer<DailyProgressState>(
               builder: (context, DailyProgressState dailyProgressState, child) {
-                return Column(
+                return Stack(
                   children: [
-                    Text(
-                        "Daily Goal:  ${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold"),
-                    LinearPercentIndicator(
-                      barRadius: const Radius.circular(10),
-                      padding: const EdgeInsets.all(0),
-                      backgroundColor: Color.fromARGB(255, 213, 213, 213),
-                      progressColor: Colors.amber,
-                      animation: true,
-                      lineHeight: globalEdgePadding,
-                      // percent: 0.2,
-                      percent: dailyProgressState.currentPercentage,
+                    Column(
+                      children: [
+                        //TODO
+                        // Align(
+                        //   alignment: Alignment.topCenter,
+                        //   child: ConfettiWidget(
+                        //     maximumSize: const Size(30, 30),
+                        //     shouldLoop: false,
+                        //     confettiController: ConfettiController(
+                        //         duration: const Duration(seconds: 10))
+                        //       ..play(),
+                        //     blastDirectionality: BlastDirectionality.explosive,
+                        //     maxBlastForce: 14,
+                        //     minBlastForce: 5,
+                        //     emissionFrequency: 0.2,
+                        //     gravity: 1,
+                        //   ),
+                        // ),
+                        Text(
+                            "Daily Goal:  ${dailyProgressState.currentTotalCount} / $dailyClassificationThreshold"),
+                        LinearPercentIndicator(
+                          barRadius: const Radius.circular(10),
+                          padding: const EdgeInsets.all(0),
+                          backgroundColor:
+                              const Color.fromARGB(255, 213, 213, 213),
+                          progressColor: Colors.amber,
+                          animation: true,
+                          lineHeight: globalEdgePadding,
+                          // percent: 0.2,
+                          percent: dailyProgressState.currentPercentage,
+                        ),
+                      ],
                     ),
                   ],
                 );
