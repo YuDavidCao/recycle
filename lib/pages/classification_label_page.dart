@@ -6,6 +6,7 @@ import 'package:recycle/controller/classification_state.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/firebase/firebase_firestore_service.dart';
 import 'package:recycle/firebase/firebase_storage_service.dart';
+import 'package:recycle/main.dart';
 
 class ClassificationLabelPage extends StatefulWidget {
   final String label;
@@ -141,6 +142,15 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
               // ),
               ElevatedButton(
                   onPressed: () async {
+                    bool consent = settingBox.get("image tracking agreement");
+                    if (!consent) {
+                      consent = userConsent(context);
+                      if (consent) {
+                        settingBox.put("image tracking agreement", true);
+                      } else {
+                        Navigator.pop(context);
+                      }
+                    }
                     DocumentReference? documentReference =
                         await FirebaseFirestoreService
                             .submitErrorWithoutPicture(widget.currentLabel,
@@ -163,32 +173,29 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
   }
 }
 
-userConsent(BuildContext context) {
+bool userConsent(BuildContext context) {
+  bool consent = false;
   showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content: SizedBox(
+        content: const SizedBox(
           height: 150,
           child: Column(
-            //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              //TODO
-            ],
+            children: [Text("")],
           ),
         ),
         actions: [
           TextButton(
-            child: const Text("Yes"),
+            child: const Text("Accept"),
             onPressed: () {
-              //TODO
+              consent = true;
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: const Text("No"),
+            child: const Text("Decline"),
             onPressed: () {
-              //TODO
               Navigator.pop(context);
             },
           )
@@ -196,4 +203,13 @@ userConsent(BuildContext context) {
       );
     },
   );
+  return consent;
 }
+
+String userConsentMessage = """
+We value your privacy and seek your permission to collect and process images you take using our app. These images will be used exclusively for the purposes of improving our model for garbage classification.
+
+Your images will be stored securely and will not be shared with third parties without your explicit consent. Please review our Privacy Policy for more information on how we handle your data. If you have any questions or concerns, please contact us.
+
+By clicking 'Accept,' you consent to the collection and use of your images as described above."
+""";
