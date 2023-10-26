@@ -1,8 +1,6 @@
 import 'dart:io';
-import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -12,6 +10,8 @@ import 'package:recycle/controller/classification_state.dart';
 
 import 'package:image/image.dart' as Img;
 import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/main.dart';
+import 'package:recycle/pages/helper_sheet.dart';
 import 'package:recycle/pages/info_sheets.dart/cardboard_info.dart';
 import 'package:recycle/pages/info_sheets.dart/glass_info.dart';
 import 'package:recycle/pages/info_sheets.dart/metal_info.dart';
@@ -32,7 +32,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String currentLabel = "None";
+
+  @override
+  void initState() {
+    //TODO
+    if (!settingBox.get("image classification description")) {
+      settingBox.put("image classification description", true);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        displayHelpers(context);
+      });
+    }
+    super.initState();
+  }
 
   Future<String> selectPicture(ImageSource imageSource) async {
     XFile? imageXfile = await ImagePicker().pickImage(source: imageSource);
@@ -128,9 +139,22 @@ class _HomePageState extends State<HomePage> {
                 ...classificationLabels.map(
                   (String type) => Container(
                     padding: const EdgeInsets.all(globalMarginPadding),
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(15)),
-                      color: thirtyUIColor,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                          bottomLeft: Radius.circular(10),
+                          bottomRight: Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 5,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,

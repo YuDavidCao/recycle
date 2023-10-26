@@ -3,6 +3,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
+import 'package:recycle/pages/helper_sheet.dart';
 
 class GlobalDrawer extends StatefulWidget {
   final String currentPage;
@@ -95,10 +96,12 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
             Navigator.of(context).pushReplacementNamed(
               '/HelpClassificationPage',
             );
-          }, "Help with classification", widget.currentPage == "HelpClassificationPage",
+          },
+              "Help with classification",
+              widget.currentPage == "HelpClassificationPage",
               Icons.remove_red_eye),
           generateDrawerContainer(() {
-            //TODO
+            displayHelpers(context);
           }, "Help", widget.currentPage == "_", Icons.help),
           const SizedBox(
             height: globalEdgePadding,

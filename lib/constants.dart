@@ -13,7 +13,7 @@ const Color thirtyUIColor = Color(0xFF50C878);
 
 const Color tenUIColor = Colors.amber;
 
-const int dailyClassificationThreshold = 30;
+const int dailyClassificationThreshold = 20;
 
 const int classificationWidth = 224;
 
@@ -29,6 +29,8 @@ const List<String> classificationLabels = [
   'plastic',
   'trash'
 ];
+
+const Duration globalPageViewDuration = Duration(milliseconds: 500);
 
 const LinearGradient goldLinearGradient = LinearGradient(
   begin: Alignment(0, -1),
