@@ -7,6 +7,7 @@ import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/firebase/firebase_firestore_service.dart';
 import 'package:recycle/firebase/firebase_storage_service.dart';
 import 'package:recycle/main.dart';
+import 'package:recycle/widgets/global_logger.dart';
 
 class ClassificationLabelPage extends StatefulWidget {
   final String label;
@@ -142,28 +143,28 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
               // ),
               ElevatedButton(
                   onPressed: () async {
-                    bool consent = settingBox.get("image tracking agreement");
-                    if (!consent) {
-                      consent = userConsent(context);
-                      if (consent) {
-                        settingBox.put("image tracking agreement", true);
-                      } else {
+                    // await userConsent(context);
+                    if (!settingBox.get("image tracking agreement")) {
+                      await userConsent(context);
+                    }
+                    if (context.mounted) {
+                      if (!settingBox.get("image tracking agreement")) {
                         Navigator.pop(context);
                       }
-                    }
-                    DocumentReference? documentReference =
-                        await FirebaseFirestoreService
-                            .submitErrorWithoutPicture(widget.currentLabel,
-                                classificationLabels[selectedValue], context);
-                    if (documentReference != null && context.mounted) {
-                      FirebaseStorageService.submitErrorPicture(
-                          Provider.of<ClassificationState>(context,
-                                  listen: false)
-                              .filePath!,
-                          widget.currentLabel,
-                          classificationLabels[selectedValue],
-                          documentReference.id);
-                      Navigator.pop(context);
+                      DocumentReference? documentReference =
+                          await FirebaseFirestoreService
+                              .submitErrorWithoutPicture(widget.currentLabel,
+                                  classificationLabels[selectedValue], context);
+                      if (documentReference != null && context.mounted) {
+                        FirebaseStorageService.submitErrorPicture(
+                            Provider.of<ClassificationState>(context,
+                                    listen: false)
+                                .filePath!,
+                            widget.currentLabel,
+                            classificationLabels[selectedValue],
+                            documentReference.id);
+                        Navigator.pop(context);
+                      }
                     }
                   },
                   child: const Text("Submit"))
@@ -173,28 +174,34 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
   }
 }
 
-bool userConsent(BuildContext context) {
-  bool consent = false;
-  showDialog(
+Future<void> userConsent(BuildContext context) async {
+  await showDialog(
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        content: const SizedBox(
-          height: 150,
+        content: SizedBox(
+          height: MediaQuery.of(context).size.height * 2 / 3,
           child: Column(
-            children: [Text("")],
+            children: [Text(userConsentMessage)],
           ),
         ),
         actions: [
           TextButton(
-            child: const Text("Accept"),
+            child: const Text(
+              "Accept",
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
             onPressed: () {
-              consent = true;
+              settingBox.put("image tracking agreement", true);
               Navigator.pop(context);
             },
           ),
           TextButton(
-            child: const Text("Decline"),
+            child: const Text(
+              "Decline",
+              style: TextStyle(color: Colors.red),
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -203,7 +210,6 @@ bool userConsent(BuildContext context) {
       );
     },
   );
-  return consent;
 }
 
 String userConsentMessage = """
