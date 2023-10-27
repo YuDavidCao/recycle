@@ -27,8 +27,8 @@ Future<void> main() async {
   settingBox = await Hive.openBox('setting');
   dailyProgressBox = await Hive.openBox('dailyProgress');
   totalStatisticBox = await Hive.openBox("totalStatisticBox");
-  settingBox.put("image tracking agreement", false);
-  settingBox.put("image classification description", false);
+  // settingBox.put("image tracking agreement", false);
+  // settingBox.put("image classification description", false);
   if (!settingBox.containsKey("first time initialization")) {
     settingBox.put("first time initialization", true);
     settingBox.put("image tracking agreement", false);
