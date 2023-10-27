@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
 import 'package:recycle/pages/helper_sheet.dart';
+import 'package:recycle/pages/setting_sheet.dart';
 
 class GlobalDrawer extends StatefulWidget {
   final String currentPage;
@@ -100,9 +101,20 @@ class _GlobalDrawerState extends State<GlobalDrawer> {
               "Help with classification",
               widget.currentPage == "HelpClassificationPage",
               Icons.remove_red_eye),
+          // generateDrawerContainer(() {
+          //   displayHelpers(context);
+          // }, "Help", widget.currentPage == "_", Icons.help),
           generateDrawerContainer(() {
-            displayHelpers(context);
-          }, "Help", widget.currentPage == "_", Icons.help),
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                builder: (context) {
+                  return const SettingSheet();
+                });
+          }, "Setting", widget.currentPage == "_", Icons.settings),
           const SizedBox(
             height: globalEdgePadding,
           ),

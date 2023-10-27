@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:recycle/constants.dart';
 
-void displayHelpers(BuildContext context) async {
+Future<void> displayHelpers(BuildContext context) async {
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,
