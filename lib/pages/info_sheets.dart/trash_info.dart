@@ -23,7 +23,7 @@ class _TrashInfoState extends State<TrashInfo> {
         minChildSize: 0.2,
         maxChildSize: 0.9,
         builder: ((context, scrollController) {
-          return ListView(
+          return Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
@@ -135,28 +135,28 @@ class _TrashInfoState extends State<TrashInfo> {
                       ],
                     ),
                   )),
-              const SizedBox(
-                height: globalMarginPadding,
-              ),
-              Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      globalEdgePadding, 0, globalEdgePadding, 0),
-                  child: RichText(
-                    text: TextSpan(
-                      text: '',
-                      style: GoogleFonts.roboto(
-                          textStyle: const TextStyle(
-                              color: Colors.black, height: 1.4)),
-                      children: const <TextSpan>[
-                        TextSpan(
-                            text: 'Proper Sealing: ',
-                            style: TextStyle(fontWeight: FontWeight.bold)),
-                        TextSpan(
-                            text:
-                                'Seal trash bags tightly to minimize the escape of unpleasant odors and pests.'),
-                      ],
-                    ),
-                  )),
+              // const SizedBox(
+              //   height: globalMarginPadding,
+              // ),
+              // Padding(
+              //     padding: const EdgeInsets.fromLTRB(
+              //         globalEdgePadding, 0, globalEdgePadding, 0),
+              //     child: RichText(
+              //       text: TextSpan(
+              //         text: '',
+              //         style: GoogleFonts.roboto(
+              //             textStyle: const TextStyle(
+              //                 color: Colors.black, height: 1.4)),
+              //         children: const <TextSpan>[
+              //           TextSpan(
+              //               text: 'Proper Sealing: ',
+              //               style: TextStyle(fontWeight: FontWeight.bold)),
+              //           TextSpan(
+              //               text:
+              //                   'Seal trash bags tightly to minimize the escape of unpleasant odors and pests.'),
+              //         ],
+              //       ),
+              //     )),
               const SizedBox(
                 height: globalMarginPadding,
               ),

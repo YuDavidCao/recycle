@@ -38,7 +38,7 @@ class _MetalInfoState extends State<MetalInfo> {
         minChildSize: 0.2,
         maxChildSize: 0.9,
         builder: ((context, scrollController) {
-          return ListView(
+          return Column(
             // crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
