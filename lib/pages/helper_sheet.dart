@@ -22,7 +22,6 @@ class HelperSheet extends StatefulWidget {
 
 class _HelperSheetState extends State<HelperSheet> {
   final PageController controller = PageController();
-  int _currentPage = 0;
   List<Image> images = [
     Image.asset("assets/guide/guide1.png", fit: BoxFit.scaleDown),
     // Image.asset("assets/guide/guide 2.png", fit: BoxFit.scaleDown),

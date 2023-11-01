@@ -150,20 +150,23 @@ class _PredictionErrorSheetState extends State<PredictionErrorSheet> {
                     if (context.mounted) {
                       if (!settingBox.get("image tracking agreement")) {
                         Navigator.pop(context);
-                      }
-                      DocumentReference? documentReference =
-                          await FirebaseFirestoreService
-                              .submitErrorWithoutPicture(widget.currentLabel,
-                                  classificationLabels[selectedValue], context);
-                      if (documentReference != null && context.mounted) {
-                        FirebaseStorageService.submitErrorPicture(
-                            Provider.of<ClassificationState>(context,
-                                    listen: false)
-                                .filePath!,
-                            widget.currentLabel,
-                            classificationLabels[selectedValue],
-                            documentReference.id);
-                        Navigator.pop(context);
+                      } else {
+                        DocumentReference? documentReference =
+                            await FirebaseFirestoreService
+                                .submitErrorWithoutPicture(
+                                    widget.currentLabel,
+                                    classificationLabels[selectedValue],
+                                    context);
+                        if (documentReference != null) {                          
+                          FirebaseStorageService.submitErrorPicture(
+                              Provider.of<ClassificationState>(context,
+                                      listen: false)
+                                  .filePath!,
+                              widget.currentLabel,
+                              classificationLabels[selectedValue],
+                              documentReference.id);
+                          Navigator.pop(context);
+                        }
                       }
                     }
                   },

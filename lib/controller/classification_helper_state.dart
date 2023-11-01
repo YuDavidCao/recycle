@@ -18,6 +18,7 @@ class ClassificationHelperState extends ChangeNotifier {
   }
 
   Future<void> nextImage(BuildContext context) async {
+    noMoreImages = false;
     List<DocumentSnapshot> currentImageDocument = [];
     bool passed = true;
     do {
@@ -41,7 +42,10 @@ class ClassificationHelperState extends ChangeNotifier {
       }
       if (currentImageDocument.isNotEmpty) {
         settingBox.put(
-            "prevDate", currentImageDocument.first["dateTime"].toDate());
+            "prevDate",
+            currentImageDocument.first["dateTime"]
+                .toDate()
+                .add(const Duration(milliseconds: 1)));
         _documentSnapshot = currentImageDocument.first;
       } else {
         noMoreImages = true;

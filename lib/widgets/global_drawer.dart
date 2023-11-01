@@ -3,7 +3,6 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:recycle/constants.dart';
 import 'package:recycle/controller/daily_progress_state.dart';
-import 'package:recycle/pages/helper_sheet.dart';
 import 'package:recycle/pages/setting_sheet.dart';
 
 class GlobalDrawer extends StatefulWidget {
